@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Mood Tracker</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            transition: background-color 0.5s ease;
+        }
+
+        .mood-tracker {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .mood-button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .mood-button:hover {
+            transform: scale(1.05);
+        }
+
+        #moodHistory {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .dark-mode .mood-tracker {
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        #darkModeToggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <button id="darkModeToggle">Toggle Dark Mode</button>
+    <div class="mood-tracker">
+        <h1>How are you feeling today?</h1>
+        <div id="moodButtons">
+            <button class="mood-button" data-mood="Happy" data-color="yellow">😊 Happy</button>
+            <button class="mood-button" data-mood="Sad" data-color="lightblue">😢 Sad</button>
+            <button class="mood-button" data-mood="Excited" data-color="lightgreen">🤩 Excited</button>
+            <button class="mood-button" data-mood="Calm" data-color="lightcoral">😌 Calm</button>
+        </div>
+        <div id="moodHistory">
+            <h2>Mood History</h2>
+            <ul id="moodList"></ul>
+        </div>
+    </div>
+
+    <script>
+        const moodButtons = document.getElementById('moodButtons');
+        const body = document.body;
+        const moodList = document.getElementById('moodList');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        let moodHistory = [];
+
+        moodButtons.addEventListener('click', function(event) {
+            if (event.target.classList.contains('mood-button')) {
+                const mood = event.target.dataset.mood;
+                const color = event.target.dataset.color;
+
+                body.style.backgroundColor = color;
+                moodHistory.push(mood);
+                updateMoodHistory();
+            }
+        });
+
+        function updateMoodHistory() {
+            moodList.innerHTML = '';
+            moodHistory.forEach(mood => {
+                const listItem = document.createElement('li');
+                listItem.textContent = mood;
+                moodList.appendChild(listItem);
+            });
+        }
+
+        darkModeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>
